@@ -1,7 +1,7 @@
 const http = require('http');
 const express = require('express');
 const mongoose = require('mongoose');
-
+const env = require('dotenv');
 
 
 const { createConnection } = require('./models/db');
@@ -21,6 +21,7 @@ app.use(express.static('public'));
 //app configuration
 app.set('views','views');
 app.set('view engine', 'ejs');
+env.config();
 
 
 //routes
