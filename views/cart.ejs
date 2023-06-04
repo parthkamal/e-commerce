@@ -1,0 +1,52 @@
+<header>
+    <%- include('components/navbar.ejs') %>
+</header>
+
+
+
+<div class="container mt-3">
+    <main role="main">
+        <div class="row">
+            <div class="col">
+                <h1>Orders</h1>
+                <div class="table-responsive-sm">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">product</th>
+                                <th scope="col">description</th>
+                                <th scope="col">quantity</th>
+                                <th scope="col">price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% order.forEach(({_id, order, total})=> { %>
+                                <tr>
+                                    <td>
+                                        <%= id %>
+                                    </td>
+                                    <td>
+                                        <%= order %>
+                                    </td>
+                                    <td>
+                                        <%= total %>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary" href="/order/<%=_id%>">update</a>
+                                        <a class="btn btn-danger" href="/order/delete/<%=_id%>">delete</a>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <hr class="featurette-divider">
+    </main>
+</div>
+
+
+
+<script src="/js/cart.js"></script>
