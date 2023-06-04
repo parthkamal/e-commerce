@@ -1,8 +1,10 @@
 const http = require('http');
 const express = require('express');
+const mongoose = require('mongoose');
 
 
 
+const { createConnection } = require('./models/db');
 const orderRoute = require('./routes/order');
 
 
@@ -23,6 +25,20 @@ app.set('view engine', 'ejs');
 
 //routes
 app.use('/', orderRoute);
+
+
+
+
+
+//createConnection
+createConnection();
+const db = mongoose.connection; 
+
+
+//db listener
+db.on('error', error => console.log(error))
+db.once('open', () => console.log('connection established to database'));
+
 
 
 
