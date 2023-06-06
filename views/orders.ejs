@@ -1,3 +1,4 @@
+<%- include('mainLayout.ejs') %>
 <nav class="navbar fixed-top navbar-dark navbar-expand-md bg-success text-white">
     <a href="/" class="text-white navbar-brand">
         <i class="fab fa-pagelines"></i> Organic Store
@@ -20,7 +21,7 @@
 <div class="container mt-5 mb-3">
     <div class="row">
         <div class="col">
-            <form action="/order" class="border border-warning p-3" method="post" autocomplete="off">
+            <form action="/order" class="border border-warning p-3" method="POST" autocomplete="off">
                 <input type="hidden" name="_id" class="form-control" value="<%= order.id %>">
                 <div class="form-group">
                     <label for="">order</label>

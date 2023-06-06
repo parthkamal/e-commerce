@@ -5,7 +5,6 @@ const { getMenuController, getCartController, getOrderController, getAdminContro
 const Order = mongoose.model('Order');
 
 
-mongoose.set('useFindAndModify',false);//configuration for mongodb to ignore deprecated methods. 
 
 router.get('/',getMenuController)
 

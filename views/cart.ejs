@@ -1,3 +1,6 @@
+<%- include('mainLayout.ejs') %>
+
+
 <header>
     <%- include('components/navbar.ejs') %>
 </header>
@@ -20,24 +23,7 @@
                                 <th scope="col">price</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <% order.forEach(({_id, order, total})=> { %>
-                                <tr>
-                                    <td>
-                                        <%= id %>
-                                    </td>
-                                    <td>
-                                        <%= order %>
-                                    </td>
-                                    <td>
-                                        <%= total %>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-primary" href="/order/<%=_id%>">update</a>
-                                        <a class="btn btn-danger" href="/order/delete/<%=_id%>">delete</a>
-                                    </td>
-                                </tr>
-                                <% }) %>
+                        <tbody id="table"> 
                         </tbody>
                     </table>
                 </div>

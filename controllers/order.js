@@ -1,88 +1,77 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const Order = mongoose.model('Order');
+const { response } = require('express');
+const Order = require('../models/order');
 
 
-const getMenuController = (request,response) => {
+const getMenuController = (request, response) => {
     response.render('menu');
 };
 
 
-const getCartController = (request,response) => {
+const getCartController = (request, response) => {
     response.render('cart');
 }
 
-const getOrderController = (request,response) => {
+const getOrderController = (request, response) => {
     response.render('orders');
 }
 
-const getOrderByIdController = (request,response) => {
-    const {id } = request.params;
-
-
-    Order.findById(id, (error, result) => {
-        if(!error) {
-            response.render('orders', {order:result})
-        }else {
-            console.log({error});
-        }
-    })
+const getOrderByIdController = (request, response) => {
+    const { id } = request.params;
+    Order.findById(id).then(result => {
+        response.render('orders',{order:result})
+    }).catch(error => console.log({error}));
 }
 
-const getDeleteOrderByIdController =  (request,response) => {
-    const {id} = request.params;
-    Order.findByIdAndRemove(id,(error,result) =>{
-        if(!error) {
-            response.redirect('/admin');
-        }else {
-            console.log({error});
-        }
+const getDeleteOrderByIdController = (request, response) => {
+    const { id } = request.params;
+    Order.findByIdAndRemove(id).then((result) => {
+        const message = 'order removed successfully';
+        console.log({ message });
+        response.redirect('/admin');
+    }
+    ).catch((error) => {
+        console.log({ error });
     })
 }
 
 
 
-const getAdminController = (request,response) => {
-    Order.find((error,docs) => {
-        if(!error){
-            response.render('admin',{order:docs});
-        }else {
-            console.log({error});
-        }
-    })
+const getAdminController = (request, response) => {
+    Order.find()
+        .then((result) => response.render('admin', { order: result }))
+        .catch((error) => console.log({ error }));
 }
 
 
 //post 
-
-
-const postCartController = (request,response) => {
+const postCartController = (request, response) => {
     const date = new Date();
     const time = date.getTime();
-    let counter = time; 
-    counter +=1; 
+    let counter = time;
+    counter += 1;
     const order = new Order();
-    order.total = request.body.total; 
-    order.order = counter; 
-    order.save((error,result) => {
-        if(!error){
-            console.log('orders;', order);
-            response.redirect('/admin');
-        }else {
-            console.log('error insert order 1 ',error);
-        }
-    })
+    order.total = request.body.total;
+    order.order = counter;
+    order.save()
+        .then((result) => {
+            const message = 'added the order successfully ';
+            console.log({message});
+            response.redirect('/');
+        }).catch((error) => {
+            response.status(400).json({ error });
+        })
 }
 
 
-const postOrderController = (request,response) => {
-    Order.findOneAndUpdate({_id: request.body._id}, request.body, {new:true}, (error, result) => {
-        if(!error) {
-            response.redirect('/admin');
-        }else {
-            console.log('update error' , {error});
-        }
-    })
+const postOrderController = (request, response) => {
+    console.log(request.body);
+    Order.findOneAndUpdate({ _id: request.body._id }, request.body, { new: true })
+        .then((result) => {
+            console.log({ result });
+            const message = "added successfully";
+            response.redirect('/admin')
+        })
+        .catch((error) => response.status(400).json({ error }));
 }
 
 
@@ -97,7 +86,7 @@ module.exports = {
     getDeleteOrderByIdController,
     postCartController,
     postOrderController
-    
+
 }
 
 
